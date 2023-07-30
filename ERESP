@@ -1,0 +1,40 @@
+
+local billboardGui = Instance.new("BillboardGui")
+billboardGui.Name = "ESP"
+billboardGui.Enabled = true
+billboardGui.AlwaysOnTop = true
+billboardGui.Size = UDim2.new(0, 100, 0, 50) 
+
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Name = "PlayerName"
+textLabel.BackgroundTransparency = 1
+textLabel.Size = UDim2.new(1, 0, 1, 0)
+textLabel.Font = Enum.Font.SourceSansBold
+textLabel.TextColor3 = Color3.new(1, 1, 1)
+textLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+textLabel.TextStrokeTransparency = 0
+textLabel.TextScaled = true
+textLabel.TextWrapped = true
+
+
+local function updateESP()
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer and player.Character then
+            
+            local playerESP = billboardGui:Clone()
+            playerESP.Parent = game.Players.LocalPlayer.PlayerGui
+            
+            
+            local torso = player.Character:FindFirstChild("HumanoidRootPart")
+            if torso then
+                playerESP.Adornee = torso
+                textLabel.Text = player.Name
+                textLabel.Parent = playerESP
+            end
+        end
+    end
+end
+
+
+game:GetService("RunService").RenderStepped:Connect(updateESP)
